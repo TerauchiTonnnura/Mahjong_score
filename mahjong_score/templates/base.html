@@ -19,8 +19,8 @@
   </head>
 
   <body>
-
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+<!--navbarを上部に固定したい場合は fixed-top を指定する-->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
       <a class="navbar-brand" href="">Saki</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -53,11 +53,11 @@
       </div>
     </nav>
 
-    <main role="main" class="container">
+    <div class="container">
 
       {% block contents %}{% endblock %}
 
-    </main><!-- /.container -->
+    </div><!-- /.container -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
