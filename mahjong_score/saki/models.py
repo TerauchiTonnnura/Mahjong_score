@@ -12,20 +12,36 @@ class Player(models.Model):
 
 class Game(models.Model):
     date = models.DateTimeField(default=timezone.now)
-    players = models.ManyToManyField(Player, blank=True)
+    # players = models.ManyToManyField(Player, blank=True)
+    east = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, related_name='east')
+    south = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, related_name='south')
+    west = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, related_name='west')
+    north = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, related_name='north')
+
+    east_point = models.IntegerField(default=25000)
+    south_point = models.IntegerField(default=25000)
+    west_point = models.IntegerField(default=25000)
+    north_point = models.IntegerField(default=25000)
 
     def __str__(self):
-        lis = [p.name for p in self.players.all()]
-        return "{} : [{}, {}, {}, {}]".format(self.date, lis[0], lis[1], lis[2], lis[3])
+        print(self.date)
+        print(self.east)
+        print(self.west)
+        return "{} : [{}, {}, {}, {}]".format(self.date, self.east.name, self.south.name, self.west.name, self.north.name)
 
 
-# class Hand(models.Model):
-#     hand_id = models.ForeignKey(Game, on_delete=models.CASCADE)
-#     parent = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True)  # 親
-#     nth = models.IntegerField(default=0)  # N本場
-#     round_choices = ('東', '南', '西', '北')
-#     round = models.CharField(max_length=1, choices=round_choices)
-#     hora_choices = ('ロン', 'ツモ', '流局')
-#     hora = models.CharField(max_length=2, choices=hora_choices)
-#     discarder = models.ForeignKey(Player, on_delete=models.SET_NULL)
-#     point = models.IntegerField()
+class Kyoku(models.Model):
+    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    oya = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, related_name='oya')  # 親
+    kyoku = models.IntegerField(default=1)  # 局
+    honba = models.IntegerField(default=0)  # 本場
+    riichi_bou = models.IntegerField(default=0)  # リー棒
+    bakaze = models.CharField(max_length=1)
+    agari_type = models.CharField(max_length=10)
+    ryukyoku_type = models.CharField(max_length=10, null=True)
+    agari_player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, related_name='agari_player')  # 上がった人
+    houju_player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, related_name='houju_player')  # 振り込んだ人
+    point = models.IntegerField()
+
+    def __str__(self):
+        return "{} : {}{}局{}本場".format(self.game, self.bakaze, self.kyoku, self.honba)
