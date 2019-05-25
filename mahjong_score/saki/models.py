@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Player(models.Model):
@@ -10,7 +11,7 @@ class Player(models.Model):
 
 
 class Game(models.Model):
-    date = models.DateField()
+    date = models.DateTimeField(default=timezone.now)
     players = models.ManyToManyField(Player, blank=True)
 
     def __str__(self):
