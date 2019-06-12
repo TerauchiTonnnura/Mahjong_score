@@ -56,7 +56,7 @@ class KyokuPlayer(models.Model):
     # oya = models.BooleanField(default=True) # 自風でわかるか ?
     jikaze = models.CharField(max_length=1)
     
-    point_current = models.IntegerField(default=25000)
+    # point_current = models.IntegerField(default=25000)
     point_change = models.IntegerField(default=0)
     
     # stats を求めるときに，このクラスだけを参照し，Kyoku クラスを参照する必要がないようにしたい．
@@ -66,3 +66,7 @@ class KyokuPlayer(models.Model):
     houju = models.BooleanField(default=False)
     ## naki = models.BooleanField(default=False)
     ## naki_num = modeld.IntegerField(default=0)
+    
+    def __str__(self):
+        return "Kyoku={} : player={}".format(self.kyoku, self.player)
+    
