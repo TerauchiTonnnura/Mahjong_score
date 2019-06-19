@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block contents %}
+  <hr>
+  <form method="get" action="">
+    <label>{{form.game_type.label}}{{form.game_type}}</label><br>
+
+      <label>プレイヤの名前</label><br>
+    <label>{{ form.east.label }} {{ form.east }}</label><br>
+      <label>{{ form.south.label }} {{ form.south }}</label><br>
+      <label>{{ form.west.label }} {{ form.west }}</label><br>
+      <label>{{ form.north.label }} {{ form.north }}</label><br>
+
+    <input type="submit" value="送信">
+  </form>
+{% endblock contents%}
