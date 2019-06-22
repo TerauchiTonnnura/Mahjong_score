@@ -29,15 +29,16 @@ def enter_kyoku_result(request):
     f_ron = RonForm()
     f_tsumo = TsumoForm()
     f_ryukyoku = RyukyokuForm()
+    context = {
+        'form_Ron': f_ron,
+        'form_Tsumo': f_tsumo,
+        'form_Ryukyoku': f_ryukyoku
+    }
 
     # game = Game.objects.get(game_id=4)
     # tontya = game.ton
     return render(
         request,
         'saki/enter_kyoku_result.html',
-        {
-         'form_Ron': f_ron,
-         'form_Tsumo': f_tsumo,
-         'form_Ryukyoku': f_ryukyoku
-         }
+        context
     )
