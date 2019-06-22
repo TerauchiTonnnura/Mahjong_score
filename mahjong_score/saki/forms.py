@@ -40,13 +40,6 @@ class StartGame(forms.Form):
     )
 
 
-RESULT_CHOICES = (
-    ('ron', '栄(ロン)'),
-    ('tsumo', '自摸(ツモ)'),
-    ('ryukyoku', '流局'),
-    ('tyonbo', '沖和(チョンボ)')
-)
-
 CHILDREN_RON_POINT = (
     ('1000', ' 1,000'),
     ('1300', ' 1,300'),
@@ -143,23 +136,25 @@ PARENT_TSUMO_POINT = (
     ('16000', '16,000'),
 )
 
-
-class EnterKyoku(forms.Form):
-    result = forms.ChoiceField(
-        widget=forms.RadioSelect,
-        choices=RESULT_CHOICES,
-        required=True,
-
-    )
+UNIQUE_RYUKYOKU_TYPE = (
+    ('0', '荒牌平局'),
+    ('1', '四風連打'),
+    ('2', '九種九牌'),
+    ('3', '四開槓'),
+    ('4', '三家和'),
+    ('5', '四家立直'),
+)
 
 
 class RonForm(forms.Form):
     child_point = forms.ChoiceField(
+        label='子のロン上がり',
         widget=forms.Select,
         choices=CHILDREN_RON_POINT
     )
 
     parent_point = forms.ChoiceField(
+        label='親のロン上がり',
         widget=forms.Select,
         choices=PARENT_RON_POINT
     )
@@ -167,11 +162,20 @@ class RonForm(forms.Form):
 
 class TsumoForm(forms.Form):
     child_point = forms.ChoiceField(
+        label='子のツモ上がり',
         widget=forms.Select,
         choices=CHILDREN_TSUMO_POINT
     )
 
     parent_point = forms.ChoiceField(
+        label='親のツモ上がり',
         widget=forms.Select,
         choices=PARENT_TSUMO_POINT
+    )
+
+
+class RyukyokuForm(forms.Form):
+    unique = forms.ChoiceField(
+        widget=forms.Select,
+        choices=UNIQUE_RYUKYOKU_TYPE
     )
