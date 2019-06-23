@@ -16,8 +16,8 @@ def start_game(request):
 
 
 def enter_hand_result(request):
-    #if request.method == 'GET':
-        #raise Http404("Question does not exist")
+    # if request.method == 'GET':
+    #     raise Http404("Question does not exist")
 
     f = EnterHand()
     return render(request, 'saki/enter_hand_result.html', {'form': f})

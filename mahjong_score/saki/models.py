@@ -40,13 +40,13 @@ class Kyoku(models.Model):
     
     def __str__(self):
         return "{} : {}{}局{}本場".format(self.game, self.bakaze, self.kyoku, self.honba)
-    
+
     def _get_bakaze(self):
         if self.kyoku <= 4:
             return '東'
         elif self.kyoku <= 8:
             return '南'
-    
+
     @property
     def bakaze(self):
         return self._get_bakaze()
@@ -65,6 +65,6 @@ class KyokuPlayer(models.Model):
     tenpai = models.BooleanField(default=False)
     houju = models.BooleanField(default=False)
     chonbo = models.BooleanField(default=False)
-    
+
     def __str__(self):
         return "Kyoku={} : player={}".format(self.kyoku, self.player)
