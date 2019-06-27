@@ -17,8 +17,22 @@ def index(request):
 
 
 def start_game(request):
-    f = StartGame()
-    return render(request, 'saki/start_game.html', {'form': f})
+    if request.method == 'GET':
+        player_all = Player.objects.all()
+        players = []
+        for player in player_all:
+            players.append((player.name, player.name),)
+        f = StartGame(players)
+        context = {'form': f}
+        return render(request, 'saki/start_game.html', context)
+    else:
+        game = Game(game_type=request.POST['game_type'],
+                    east=Player.objects.get(name=request.POST['east']),
+                    south=Player.objects.get(name=request.POST['south']),
+                    west=Player.objects.get(name=request.POST['west']),
+                    north=Player.objects.get(name=request.POST['north']),
+                    )
+        game.save()
 
 
 def enter_kyoku(request, kyoku, honba):
@@ -63,3 +77,4 @@ def enter_kyoku(request, kyoku, honba):
         'saki/enter_kyoku.html',
         context
     )
+

@@ -66,6 +66,7 @@ Webページにおいて名前やパスワード等を記載して送信する�
 html で実際にどう書かれているか知るためには「html フォーム作成」等で検索してみるとよいです．
 
 saki/forms.py にこんな感じで書く．forms.Formを継承して作成する．
+
 ```
 class HogeForm(forms.Form):
 		name = forms.CharField()
@@ -77,13 +78,16 @@ class HogeForm(forms.Form):
 これでフォームのひな型ができたのでこれを作ったページに埋め込めばよいです．
 
 views.py で作成したフォームをインポート．render の第三引数でhtmlにフォームを渡す．
+
 ```
 from .forms import HogeForm
 def hoge(request):
     f = HogeForm()
     return render(request, 'saki/hoge.html', {'form': f})
 ```
+
 あとはhtml側でフォームを展開します．hoge.htmlは以下のようになる．form.as_table以外にもいろいろな展開方法があるので試してみてください．
+
 ```
 <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -170,5 +174,78 @@ html から作成したjsファイルをインポートしたいので，html �
 この一文でhtml内でhoge.jsに記述した関数が使えるようになります．
 JavaScript(JQuery) の書き方はきりがないので省略．適宜調べてください．
 
-# bootstrap どうつかうん？
-どう使うんですか．教えてほしい．
+## bootstrapについて
+### bootstrap とは？
+HTML を簡単におしゃれに書くためのフレークワーク．
+利点としては...
+1. レスポンシブデザインに対応できる
+	- スマホやPC等，画面サイズに応じた表示ができます．
+2. おしゃれなコンポーネント
+	- bootstrapであらかじめ用意されてるクラスを指定することでおしゃれなパーツが使える．
+
+などが挙げられます．
+
+例えば，bootstrapで用意されてるボタンを使うには...
+
+```
+<a href="#" class="btn btn-success">BootStrapのボタン</a>
+```
+
+のように書けばいい感じのボタンができる．
+
+bootstrapの強みはなんといっても2番のレスポンシブデザインが簡単にかけるということにあります．
+bootstrapでは画面を12分割したグリッド単位で考えるうんぬんの話が下に書いているので読むといいと思います．非常に重要．
+
+[Bootstrapのグリッドシステムの使い方を初心者に向けておさらいする](http://websae.net/twitter-bootstrap-grid-system-21060224/)
+
+グリッドシステムの基本的な使い方：
+1. `<div class="container">`で囲む
+2. 上記のcontainerクラスの中で`<div class="row">`で一行を定義する
+3. 上記のrowクラスの中で`<div class="col-{prefix}-{列数(1〜12)}">`で何分割するかを定義する
+
+以下，PC用画面(lg)で2分割するサンプル
+```
+<div class="container">
+    <h1>PC用画面(lg)のときは2分割する</h1>
+    <div class="row">
+        <div class="col-lg-6 skyblue">
+            1(6/12)
+        </div>
+        <div class="col-lg-6 pink">
+            2(6/12)
+        </div>
+    </div>
+</div>
+```
+
+
+## bootstrapの本体は？
+CSSファイルとJSファイルです．
+今回のプロジェクトにおいてはstatic/ 以下にあるcssとjsに入っている
+bootstrap.cssとかbootstrap.js
+のようなファイルです．
+
+## bootstrapを自分のページで使いたい．
+bootstrapでは，大本となるデザインを記したhtmlファイルを作ってbase.htmlのような形でおいておくのが一般的です．
+本プロジェクトではtemplates/ においてます．base.htmlを呼び出すには，自分のページの先頭行で
+
+```
+{% extends "base.html" %}
+```
+を書き，さらに
+
+```
+{% block contents %}
+
+{% endblock %}
+```
+を作り，この中に自分の作りたいページを埋め込んでいきましょう．また，スクリプトを埋め込みたい場合は
+```
+{% block scripts %}
+
+{% endblock %}
+```
+の中に書いてください．この辺はすでにできてるページとかを参考にしながらやってみてください．ちなみに見たらわかりますがbase.htmlでさきほどのcssとかjsファイルを読み込んでいます．これのおかげでbase.htmlをextendした自作のページでもbootstrapが使えるということです．
+
+基本的な概要と使い方は以上で終わりです．
+適当に調べながらやっていきましょう．
