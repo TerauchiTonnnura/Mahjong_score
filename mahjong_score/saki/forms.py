@@ -1,9 +1,18 @@
 from django import forms
-
+from .models import Player
 
 GAME_TYPE = {
     ('tonpu', '東風'),
     ('hanchan', '半荘')
+}
+
+NAME = Player.objects.values_list('name')
+
+NAME = {
+    ('0', '夏目漱石'),
+    ('1', '芥川龍之介'),
+    ('2', '太宰治'),
+    ('3', '谷崎潤一郎'),
 }
 
 
@@ -14,29 +23,30 @@ class StartGame(forms.Form):
         choices=GAME_TYPE,
         required=True,
     )
-    east = forms.CharField(
+
+    east = forms.ChoiceField(
         label='東',
-        max_length=10,
+        widget=forms.Select,
+        choices=NAME,
         required=True,
-        widget=forms.TextInput()
     )
-    south = forms.CharField(
+    south = forms.ChoiceField(
         label='南',
-        max_length=10,
+        widget=forms.Select,
+        choices=NAME,
         required=True,
-        widget=forms.TextInput()
     )
-    west = forms.CharField(
+    west = forms.ChoiceField(
         label='西',
-        max_length=10,
+        widget=forms.Select,
+        choices=NAME,
         required=True,
-        widget=forms.TextInput()
     )
-    north = forms.CharField(
+    north = forms.ChoiceField(
         label='北',
-        max_length=10,
+        widget=forms.Select,
+        choices=NAME,
         required=True,
-        widget=forms.TextInput()
     )
 
 
