@@ -2,7 +2,8 @@
 
 {% block contents %}
   <hr>
-  <form method="get" action="">
+  <form method="post" action="">
+    {% csrf_token %}
     <label>{{form.game_type.label}}{{form.game_type}}</label><br>
 
       <label>プレイヤの名前</label><br>

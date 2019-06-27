@@ -1,22 +1,19 @@
 from django import forms
-from .models import Player
 
 GAME_TYPE = {
     ('tonpu', '東風'),
     ('hanchan', '半荘')
 }
 
-NAME = Player.objects.values_list('name')
-
-NAME = {
-    ('0', '夏目漱石'),
-    ('1', '芥川龍之介'),
-    ('2', '太宰治'),
-    ('3', '谷崎潤一郎'),
-}
-
 
 class StartGame(forms.Form):
+    def __init__(self, players, *args, **kwargs):
+        super(StartGame, self).__init__(*args, **kwargs)
+        self.fields['east'].choices = players
+        self.fields['south'].choices = players
+        self.fields['west'].choices = players
+        self.fields['north'].choices = players
+
     game_type = forms.ChoiceField(
         label='ゲーム',
         widget=forms.RadioSelect,
@@ -27,25 +24,25 @@ class StartGame(forms.Form):
     east = forms.ChoiceField(
         label='東',
         widget=forms.Select,
-        choices=NAME,
+        choices=(),
         required=True,
     )
     south = forms.ChoiceField(
         label='南',
         widget=forms.Select,
-        choices=NAME,
+        choices=(),
         required=True,
     )
     west = forms.ChoiceField(
         label='西',
         widget=forms.Select,
-        choices=NAME,
+        choices=(),
         required=True,
     )
     north = forms.ChoiceField(
         label='北',
         widget=forms.Select,
-        choices=NAME,
+        choices=(),
         required=True,
     )
 

@@ -11,8 +11,14 @@ def index(request):
 
 
 def start_game(request):
-    f = StartGame()
-    return render(request, 'saki/start_game.html', {'form': f})
+    print(request.POST['game_type'])
+    player_all = Player.objects.all()
+    players = []
+    for player in player_all:
+        players.append((player.name, player.name),)
+    f = StartGame(players)
+    context = {'form': f}
+    return render(request, 'saki/start_game.html', context)
 
 
 def enter_kyoku_result(request):
