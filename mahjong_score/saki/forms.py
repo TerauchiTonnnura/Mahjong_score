@@ -154,6 +154,23 @@ UNIQUE_RYUKYOKU_TYPE = (
 
 
 class RonForm(forms.Form):
+    def __init__(self, players, *args, **kwargs):
+        super(RonForm, self).__init__(*args, **kwargs)
+        self.fields['houju_player'].choices = players
+        self.fields['agari_player'].choices = players
+
+    houju_player = forms.ChoiceField(
+        label='放銃プレイヤー',
+        widget=forms.Select,
+        choices=()
+    )
+
+    agari_player = forms.ChoiceField(
+        label='あがりプレイヤー',
+        widget=forms.Select,
+        choices=()
+    )
+
     child_point = forms.ChoiceField(
         label='子のロン上がり',
         widget=forms.Select,
@@ -168,6 +185,16 @@ class RonForm(forms.Form):
 
 
 class TsumoForm(forms.Form):
+    def __init__(self, players, *args, **kwargs):
+        super(TsumoForm, self).__init__(*args, **kwargs)
+        self.fields['agari_player'].choices = players
+
+    agari_player = forms.ChoiceField(
+        label='あがりプレイヤー',
+        widget=forms.Select,
+        choices=()
+    )
+
     child_point = forms.ChoiceField(
         label='子のツモ上がり',
         widget=forms.Select,
