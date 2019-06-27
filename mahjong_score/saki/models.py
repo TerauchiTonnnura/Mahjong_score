@@ -24,9 +24,6 @@ class Game(models.Model):
     north_point = models.IntegerField(default=25000)
 
     def __str__(self):
-        print(self.date)
-        print(self.east)
-        print(self.west)
         return "{} : [{}, {}, {}, {}]".format(self.date, self.east.name, self.south.name, self.west.name, self.north.name)
 
 

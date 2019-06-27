@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 {% block contents %}
 
+<h3>
+    東 1 局
+    <small>
+        0 本場
+        <small> リーチ棒 × 0 </small>
+    </small>
+</h3>
+
 <!-- プレイヤーの得点状況の表示，及びリーチ状況の入力 -->
 <table class="table">
     <thead class="thead-dark">
@@ -13,8 +21,8 @@
 
     <tbody>
     <tr class="table-secondary">
-        <th scope="row">東野 圭吾</th>
-        <td>25,000</td>
+        <th scope="row">{{game_Object.east}}</th>
+        <td>{{game_Object.east_point}}</td>
         <td>
             <div class="checkbox">
                 <input type="checkbox" value="">
@@ -22,8 +30,8 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">南 明奈</th>
-        <td>25,000</td>
+        <th scope="row">{{game_Object.south}}</th>
+        <td>{{game_Object.south_point}}</td>
         <td>
             <div class="checkbox">
                 <input type="checkbox" value="">
@@ -31,8 +39,8 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">西田 敏行</th>
-        <td>25,000</td>
+        <th scope="row">{{game_Object.west}}</th>
+        <td>{{game_Object.west_point}}</td>
         <td>
             <div class="checkbox">
                 <input type="checkbox" value="">
@@ -40,8 +48,8 @@
         </td>
     </tr>
     <tr>
-        <th scope="row">北川 景子</th>
-        <td>25,000</td>
+        <th scope="row">{{game_Object.north}}</th>
+        <td>{{game_Object.north_point}}</td>
         <td>
             <div class="checkbox">
                 <input type="checkbox" value="">
@@ -65,6 +73,7 @@
             {% csrf_token %}
             西田 から 北川 へ {{form_Ron.child_point}} </br>
             東野 へ {{form_Ron.parent_point}} </br>
+            <input type="hidden" value="ron" name="agari_type">
             <input type="submit" value="確定">
         </form>
     </div>
@@ -81,6 +90,7 @@
             {% csrf_token %}
             西田 が {{form_Tsumo.child_point}} </br>
             東野 が {{form_Tsumo.parent_point}} オール </br>
+            <input type="hidden" value="tsumo" name="agari_type">
             <input type="submit" value="確定">
         </form>
     </div>
