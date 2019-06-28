@@ -1,5 +1,4 @@
 from django import forms
-from .models
 
 
 GAME_TYPE = {
@@ -9,7 +8,6 @@ GAME_TYPE = {
 
 
 class StartGame(forms.ModelForm):
-    model =
     game_type = forms.ChoiceField(
         label='ゲーム',
         widget=forms.RadioSelect,
