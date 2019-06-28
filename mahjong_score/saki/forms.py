@@ -1,43 +1,49 @@
 from django import forms
 
-
 GAME_TYPE = {
     ('tonpu', '東風'),
     ('hanchan', '半荘')
 }
 
 
-class StartGame(forms.ModelForm):
+class StartGame(forms.Form):
+    def __init__(self, players, *args, **kwargs):
+        super(StartGame, self).__init__(*args, **kwargs)
+        self.fields['east'].choices = players
+        self.fields['south'].choices = players
+        self.fields['west'].choices = players
+        self.fields['north'].choices = players
+        
     game_type = forms.ChoiceField(
         label='ゲーム',
         widget=forms.RadioSelect,
         choices=GAME_TYPE,
         required=True,
     )
-    east = forms.CharField(
 
+    east = forms.ChoiceField(
         label='東',
-        max_length=10,
+        widget=forms.Select,
+        choices=(),
         required=True,
-        widget=forms.TextInput()
     )
-    south = forms.CharField(
+    south = forms.ChoiceField(
         label='南',
-        max_length=10,
+        widget=forms.Select,
+        choices=(),
         required=True,
-        widget=forms.TextInput()
     )
-    west = forms.CharField(
+    west = forms.ChoiceField(
         label='西',
-        max_length=10,
+        widget=forms.Select,
+        choices=(),
         required=True,
-        widget=forms.TextInput()
     )
-    north = forms.CharField(
+    north = forms.ChoiceField(
         label='北',
-        max_length=10,
+        widget=forms.Select,
+        choices=(),
         required=True,
-        widget=forms.TextInput()
     )
 
 
@@ -148,6 +154,23 @@ UNIQUE_RYUKYOKU_TYPE = (
 
 
 class RonForm(forms.Form):
+    def __init__(self, players, *args, **kwargs):
+        super(RonForm, self).__init__(*args, **kwargs)
+        self.fields['houju_player'].choices = players
+        self.fields['agari_player'].choices = players
+
+    houju_player = forms.ChoiceField(
+        label='放銃プレイヤー',
+        widget=forms.Select,
+        choices=()
+    )
+
+    agari_player = forms.ChoiceField(
+        label='あがりプレイヤー',
+        widget=forms.Select,
+        choices=()
+    )
+
     child_point = forms.ChoiceField(
         label='子のロン上がり',
         widget=forms.Select,
@@ -162,6 +185,16 @@ class RonForm(forms.Form):
 
 
 class TsumoForm(forms.Form):
+    def __init__(self, players, *args, **kwargs):
+        super(TsumoForm, self).__init__(*args, **kwargs)
+        self.fields['agari_player'].choices = players
+
+    agari_player = forms.ChoiceField(
+        label='あがりプレイヤー',
+        widget=forms.Select,
+        choices=()
+    )
+
     child_point = forms.ChoiceField(
         label='子のツモ上がり',
         widget=forms.Select,

@@ -11,6 +11,7 @@ class Player(models.Model):
 
 
 class Game(models.Model):
+    game_type = models.CharField(max_length=10)
     date = models.DateTimeField(default=timezone.now)
     # players = models.ManyToManyField(Player, blank=True)
     east = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, related_name='east')
@@ -24,9 +25,6 @@ class Game(models.Model):
     north_point = models.IntegerField(default=25000)
 
     def __str__(self):
-        print(self.date)
-        print(self.east)
-        print(self.west)
         return "{} : [{}, {}, {}, {}]".format(self.date, self.east.name, self.south.name, self.west.name, self.north.name)
 
 
