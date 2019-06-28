@@ -47,13 +47,13 @@ def enter_kyoku(request, kyoku, honba):
     ]
 
     if request.method == "POST":
-        kyoku_oj = Kyoku.objects.update_or_create(game=game_oj,
-                                                  kyoku=kyoku,
-                                                  honba=honba,
-                                                  riichi_bou=riichi_bou,
-                                                  agari_type=request.POST["agari_type"]
-                                                  )
-
+        # kyoku_oj = Kyoku.objects.update_or_create(game=game_oj,
+        #                                           kyoku=kyoku,
+        #                                           honba=honba,
+        #                                           riichi_bou=riichi_bou,
+        #                                           agari_type=request.POST["agari_type"]
+        #                                           )
+        pass
     # kyoku = Kyoku.objects.all()[0]
     # print(kyoku.agari_type)
 
