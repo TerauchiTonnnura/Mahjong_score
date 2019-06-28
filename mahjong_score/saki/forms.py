@@ -1,10 +1,10 @@
 from django import forms
+from .models
 
 GAME_TYPE = {
     ('tonpu', '東風'),
     ('hanchan', '半荘')
 }
-
 
 class StartGame(forms.Form):
     def __init__(self, players, *args, **kwargs):
