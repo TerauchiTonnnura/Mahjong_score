@@ -5,6 +5,7 @@ GAME_TYPE = {
     ('hanchan', '半荘')
 }
 
+
 class StartGame(forms.Form):
     def __init__(self, players, *args, **kwargs):
         super(StartGame, self).__init__(*args, **kwargs)
