@@ -1,5 +1,4 @@
 from django import forms
-from .models
 
 GAME_TYPE = {
     ('tonpu', '東風'),
@@ -13,7 +12,7 @@ class StartGame(forms.Form):
         self.fields['south'].choices = players
         self.fields['west'].choices = players
         self.fields['north'].choices = players
-
+        
     game_type = forms.ChoiceField(
         label='ゲーム',
         widget=forms.RadioSelect,
