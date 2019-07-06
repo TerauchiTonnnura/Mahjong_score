@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block contents %}
+<h2>
+    プレイヤ検索
+</h2>
+
+<form action="show_stats" method="post">
+    {% csrf_token %}
+    {{ form.target_player }}
+
+    <input type="submit" value="送信">
+</form>
+{% endblock contents %}
