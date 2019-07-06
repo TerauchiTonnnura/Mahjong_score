@@ -213,3 +213,16 @@ class RyukyokuForm(forms.Form):
         widget=forms.Select,
         choices=UNIQUE_RYUKYOKU_TYPE
     )
+
+
+class SearchStatsForm(forms.Form):
+    def __init__(self, players, *args, **kwargs):
+        super(SearchStatsForm, self).__init__(*args, **kwargs)
+        self.fields['target_player'].choices = players
+
+    target_player = forms.ChoiceField(
+        label='プレイヤ',
+        widget=forms.Select,
+        choices=(),
+        required=True
+    )
