@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block contents %}
+
+<h2>
+    戦績
+</h2>
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">プレイヤ名</th>
+        <th scope="col">トータルスコア</th>
+        <th scope="col">ゲーム数</th>
+        <th scope="col">局数</th>
+        <th scope="col">平均順位</th>
+        <th scope="col">和了率</th>
+        <th scope="col">放銃率</th>
+        <th scope="col">1 位率</th>
+        <th scope="col">2 位率</th>
+        <th scope="col">3 位率</th>
+        <th scope="col">4 位率</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr class="table-secondary">
+        <td>{{player_name}}</td>
+        <td>{{total_score}}</td>
+        <td>{{game_num}}</td>
+        <td>{{kyoku_num}}</td>
+        <td>{{average_juni}}</td>
+        <td>{{hora_rate}}</td>
+        <td>{{hoju_rate}}</td>
+        <td>{{rate_1st}}</td>
+        <td>{{rate_2nd}}</td>
+        <td>{{rate_3rd}}</td>
+        <td>{{rate_4th}}</td>
+    </tr>
+    </tbody>
+</table>
+
+{% endblock contents %}
+{% block script %}
+<style>
+    tr{
+        text_align: center;
+    }
+</style>
+{% endblock %}
