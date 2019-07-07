@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
+from django.db.models import Q
 from .forms import StartGame
-from .models import Player, Game, Kyoku
+from .models import Player, Game, Kyoku, KyokuPlayer
+from .mahjong_function import calc_stats
 
-from .forms import RonForm, TsumoForm, RyukyokuForm
+from .forms import RonForm, TsumoForm, RyukyokuForm, SearchStatsForm
 
 game_oj = None
 kyoku = 1
@@ -84,5 +86,27 @@ def enter_kyoku(request, kyoku, honba):
     return render(
         request,
         'saki/enter_kyoku.html',
+        context
+    )
+
+
+def search_stats(request):
+    player_all = Player.objects.all()
+    player_all = [(player.name, player.name) for player in player_all]
+    context = {'form': SearchStatsForm(player_all)}
+    return render(
+        request,
+        'saki/search_stats.html',
+        context
+    )
+
+
+def show_stats(request):
+    player_name = request.POST.get('target_player', None)
+
+    context = calc_stats(player_name)
+    return render(
+        request,
+        'saki/stats.html',
         context
     )
