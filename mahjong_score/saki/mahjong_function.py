@@ -4,10 +4,10 @@ from .models import KyokuPlayer, Game
 
 def calc_stats(player_name):
     kyoku_player_objects = KyokuPlayer.objects.filter(player__name=player_name)
-    game_objects = Game.objects.filter(Q(east__name=player_name)
-                                       | Q(south__name=player_name)
-                                       | Q(west__name=player_name)
-                                       | Q(north__name=player_name)
+    game_objects = Game.objects.filter(Q(east__name=player_name) |
+                                       Q(south__name=player_name) |
+                                       Q(west__name=player_name) |
+                                       Q(north__name=player_name)
                                        )
 
     total_point = sum([dat.point_change for dat in kyoku_player_objects]) / 100.0
