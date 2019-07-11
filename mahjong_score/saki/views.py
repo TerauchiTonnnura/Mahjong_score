@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
-from django.db.models import Q
 from .forms import StartGame
 from .models import Player, Game, Kyoku, KyokuPlayer
 from .mahjong_function import calc_stats
