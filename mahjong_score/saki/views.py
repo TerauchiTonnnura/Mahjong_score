@@ -56,7 +56,7 @@ def enter_kyoku(request, game_id):
                                                   riichi_bou=riichi_bou,
                                                   agari_type=request.POST["agari_type"]
                                                   )
-
+        print(kyoku_oj)
         f_ron = RonForm(players)
         f_tsumo = TsumoForm(players)
         f_ryukyoku = RyukyokuForm()
