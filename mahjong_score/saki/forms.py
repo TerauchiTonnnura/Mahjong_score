@@ -3,6 +3,7 @@ from .resources import (GAME_TYPE, UNIQUE_RYUKYOKU_TYPE,
                         CHILDREN_TSUMO_POINT, CHILDREN_RON_POINT,
                         PARENT_TSUMO_POINT, PARENT_RON_POINT)
 
+
 class StartGame(forms.Form):
     def __init__(self, players, *args, **kwargs):
         super(StartGame, self).__init__(*args, **kwargs)
