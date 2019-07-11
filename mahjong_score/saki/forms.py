@@ -1,5 +1,5 @@
 from django import forms
-from .resources import (GAMETYPE, UNIQUE_RYUKYOKU_TYPE,
+from .resources import (GAME_TYPE, UNIQUE_RYUKYOKU_TYPE,
                         CHILDREN_TSUMO_POINT, CHILDREN_RON_POINT,
                         PARENT_TSUMO_POINT, PARENT_RON_POINT)
 
