@@ -8,8 +8,8 @@ from .mahjong_function import calc_stats
 from .forms import RonForm, TsumoForm, RyukyokuForm, SearchStatsForm
 
 
-def index(request):
-    return render(request, 'saki/index.html')
+def home(request):
+    return render(request, 'saki/home.html')
 
 
 def start_game(request):
