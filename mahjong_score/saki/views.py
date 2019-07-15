@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from .forms import StartGame
 from .models import Player, Game, Kyoku, KyokuPlayer
@@ -106,4 +106,6 @@ def show_stats(request):
     player_name = request.POST.get('target_player', None)
 
     context = calc_stats(player_name)
+    if not context:
+        return HttpResponse("Error: search failed. There is no data of that person.")
     return render(request, 'saki/stats.html', context)

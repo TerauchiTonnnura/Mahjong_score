@@ -4,7 +4,6 @@ from django.utils import timezone
 
 class Player(models.Model):
     name = models.CharField(max_length=30)
-    point = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
