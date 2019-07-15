@@ -44,36 +44,36 @@ class SimulateGame(TestCase):  # KyokuPlayer作成までのテスト
         playerD = Player.objects.create(name="D")
 
         game = Game.objects.create(
-                    game_type="東風",
-                    date=datetime.now(),
-                    east=playerA,
-                    south=playerB,
-                    west=playerC,
-                    north=playerD,
-                    east_point=0,
-                    south_point=0,
-                    west_point=0,
-                    north_point=0
-                    )
+            game_type="東風",
+            date=datetime.now(),
+            east=playerA,
+            south=playerB,
+            west=playerC,
+            north=playerD,
+            east_point=0,
+            south_point=0,
+            west_point=0,
+            north_point=0
+        )
 
         kyoku = Kyoku.objects.create(
-                        game=game,
-                        kyoku=1,
-                        honba=0,
-                        riichi_bou=0,
-                        agari_type="ロン"
-                      )
+            game=game,
+            kyoku=1,
+            honba=0,
+            riichi_bou=0,
+            agari_type="ロン"
+        )
 
         kyokuplayerA = KyokuPlayer.objects.create(
-                                    kyoku=kyoku,
-                                    player=playerA,
-                                    jikaze="東",
-                                    point_change=12000,
-                                    agari=True,
-                                    riichi=True,
-                                    houju=False,
-                                    chonbo=False
-                                   )
+            kyoku=kyoku,
+            player=playerA,
+            jikaze="東",
+            point_change=12000,
+            agari=True,
+            riichi=True,
+            houju=False,
+            chonbo=False
+        )
         self.assertEqual(str(kyokuplayerA), "Kyoku={} : player={}".format(kyoku, playerA))
 
 
@@ -95,18 +95,18 @@ class UrlResolveTests(TestCase):  # 各 URL にたどり着けるか検証
         playerC = Player.objects.create(name="C")
         playerD = Player.objects.create(name="D")
 
-        game = Game.objects.create(
-                    game_type="東風",
-                    date=datetime.now(),
-                    east=playerA,
-                    south=playerB,
-                    west=playerC,
-                    north=playerD,
-                    east_point=0,
-                    south_point=0,
-                    west_point=0,
-                    north_point=0
-                    )
+        Game.objects.create(
+            game_type="東風",
+            date=datetime.now(),
+            east=playerA,
+            south=playerB,
+            west=playerC,
+            north=playerD,
+            east_point=0,
+            south_point=0,
+            west_point=0,
+            north_point=0
+        )
 
         url = reverse('saki:enter_kyoku', kwargs={'game_id': 1})
         response = self.client.get(url)
