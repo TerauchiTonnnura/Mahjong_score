@@ -4,6 +4,8 @@ from .models import KyokuPlayer, Game
 
 def calc_stats(player_name):
     kyoku_player_objects = KyokuPlayer.objects.filter(player__name=player_name)
+    if not kyoku_player_objects:
+        return None
     game_objects = Game.objects.filter(Q(east__name=player_name) |
                                        Q(south__name=player_name) |
                                        Q(west__name=player_name) |
