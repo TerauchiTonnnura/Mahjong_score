@@ -1,4 +1,15 @@
 {% extends "base.html" %}
+{% block current %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'saki:home' %}">ホーム</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'saki:start_game' %}">Start Game</a>
+</li>
+<li class="nav-item active">
+    <a class="nav-link" href="{% url 'saki:search_stats' %}">Stats<span class="sr-only">(current)</span></a>
+</li>
+{% endblock %}
 
 {% block contents %}
 <h2>
