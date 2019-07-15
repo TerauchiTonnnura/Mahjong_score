@@ -22,29 +22,55 @@ def start_game(request):
         context = {'form': f}
         return render(request, 'saki/start_game.html', context)
     else:
-        game_oj = Game(game_type=request.POST['game_type'],
-                       east=Player.objects.get(name=request.POST['east']),
-                       south=Player.objects.get(name=request.POST['south']),
-                       west=Player.objects.get(name=request.POST['west']),
-                       north=Player.objects.get(name=request.POST['north']),
-                       )
-        game_oj.save()
-        url = reverse("saki:enter_kyoku", kwargs={'game_id': game_oj.id})
-        return HttpResponseRedirect(url)
+        raise Http404
 
 
-def enter_kyoku(request, game_id):
-    game_oj = Game.objects.get(id=game_id)
-    players = [
-        (game_oj.east.name, game_oj.east.name),
-        (game_oj.south.name, game_oj.south.name),
-        (game_oj.west.name, game_oj.west.name),
-        (game_oj.north.name, game_oj.north.name),
-    ]
+def enter_kyoku(request):
+    if request.method == "GET":  # GET アクセスさせない
+        raise Http404
 
-    if request.method == "POST":
+    if "game_type" in request.POST:  # start_game からの画面遷移
+        game_oj = Game.objects.create(game_type=request.POST['game_type'],
+                                      east=Player.objects.get(name=request.POST['east']),
+                                      south=Player.objects.get(name=request.POST['south']),
+                                      west=Player.objects.get(name=request.POST['west']),
+                                      north=Player.objects.get(name=request.POST['north']),
+                                      )
+
+        players = [
+            (game_oj.east.name, game_oj.east.name),
+            (game_oj.south.name, game_oj.south.name),
+            (game_oj.west.name, game_oj.west.name),
+            (game_oj.north.name, game_oj.north.name),
+        ]
+
+        f_ron = RonForm(players)
+        f_tsumo = TsumoForm(players)
+        f_ryukyoku = RyukyokuForm()
+
+        context = {
+            'game_Object': game_oj,
+            'kyoku': 1,
+            'honba': 0,
+            'riichi_bou': 0,
+            'form_Ron': f_ron,
+            'form_Tsumo': f_tsumo,
+            'form_Ryukyoku': f_ryukyoku
+        }
+
+        return render(request, 'saki/enter_kyoku.html', context)
+
+    else:
         game_id = request.POST["game_id"]
         game_oj = Game.objects.get(id=game_id)
+
+        players = [
+            (game_oj.east.name, game_oj.east.name),
+            (game_oj.south.name, game_oj.south.name),
+            (game_oj.west.name, game_oj.west.name),
+            (game_oj.north.name, game_oj.north.name),
+        ]
+
         kyoku = int(request.POST["kyoku"])
         honba = int(request.POST["honba"])
         riichi_bou = int(request.POST["riichi_bou"])
@@ -70,23 +96,6 @@ def enter_kyoku(request, game_id):
             'kyoku': kyoku,
             'honba': honba,
             'riichi_bou': riichi_bou,
-            'form_Ron': f_ron,
-            'form_Tsumo': f_tsumo,
-            'form_Ryukyoku': f_ryukyoku
-        }
-
-        return render(request, 'saki/enter_kyoku.html', context)
-
-    else:
-        f_ron = RonForm(players)
-        f_tsumo = TsumoForm(players)
-        f_ryukyoku = RyukyokuForm()
-
-        context = {
-            'game_Object': game_oj,
-            'kyoku': 1,
-            'honba': 0,
-            'riichi_bou': 0,
             'form_Ron': f_ron,
             'form_Tsumo': f_tsumo,
             'form_Ryukyoku': f_ryukyoku

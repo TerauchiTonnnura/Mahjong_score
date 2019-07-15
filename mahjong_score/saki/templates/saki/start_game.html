@@ -14,7 +14,7 @@
 
 {% block contents %}
   <hr>
-  <form method="post" action="">
+  <form method="post" action="{% url 'saki:enter_kyoku' %}">
     {% csrf_token %}
     <label>{{form.game_type.label}}{{form.game_type}}</label><br>
 
