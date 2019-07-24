@@ -1,4 +1,17 @@
 {% extends "base.html" %}
+
+{% block current %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'saki:home' %}">ホーム</a>
+</li>
+<li class="nav-item active">
+    <a class="nav-link" href="{% url 'saki:start_game' %}">Start Game<span class="sr-only">(current)</span></a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'saki:search_stats' %}">Stats</a>
+</li>
+{% endblock %}
+
 {% block contents %}
 
 <h3>
@@ -74,6 +87,10 @@
             {{form_Ron.houju_player}} から {{form_Ron.agari_player}} へ {{form_Ron.child_point}} </br>
             {{form_Ron.agari_player}} へ {{form_Ron.parent_point}} </br>
             <input type="hidden" value="ron" name="agari_type">
+            <input type="hidden" value={{game_Object.id}} name="game_id">
+            <input type="hidden" value={{kyoku}} name="kyoku">
+            <input type="hidden" value={{honba}} name="honba">
+            <input type="hidden" value={{riichi_bou}} name="riichi_bou">
             <input type="submit" value="確定">
             <p></p>
         </form>
@@ -92,6 +109,10 @@
             {{form_Tsumo.agari_player}} が {{form_Tsumo.child_point}} </br>
             {{form_Tsumo.agari_player}} が {{form_Tsumo.parent_point}} オール </br>
             <input type="hidden" value="tsumo" name="agari_type">
+            <input type="hidden" value={{game_Object.id}} name="game_id">
+            <input type="hidden" value={{kyoku}} name="kyoku">
+            <input type="hidden" value={{honba}} name="honba">
+            <input type="hidden" value={{riichi_bou}} name="riichi_bou">
             <input type="submit" value="確定">
             <p></p>
         </form>
@@ -129,6 +150,11 @@
                 </div>
             </div>
             {{form_Ryukyoku.unique}}
+            <input type="hidden" value="ryukyoku" name="agari_type">
+            <input type="hidden" value={{game_Object.id}} name="game_id">
+            <input type="hidden" value={{kyoku}} name="kyoku">
+            <input type="hidden" value={{honba}} name="honba">
+            <input type="hidden" value={{riichi_bou}} name="riichi_bou">
             <input type="submit" value="確定">
             <p></p>
         </form>
@@ -162,6 +188,11 @@
                     </label>
                 </div>
             </div>
+            <input type="hidden" value="chonbo" name="agari_type">
+            <input type="hidden" value={{game_Object.id}} name="game_id">
+            <input type="hidden" value={{kyoku}} name="kyoku">
+            <input type="hidden" value={{honba}} name="honba">
+            <input type="hidden" value={{riichi_bou}} name="riichi_bou">
             <input type="submit" value="確定">
         </form>
     </div>

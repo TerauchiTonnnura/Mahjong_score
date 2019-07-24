@@ -1,19 +1,15 @@
 from django.shortcuts import render
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from .forms import StartGame
 from .models import Player, Game, Kyoku, KyokuPlayer
+from .mahjong_function import calc_stats
 
-from .forms import RonForm, TsumoForm, RyukyokuForm
-
-game_oj = None
-kyoku = 1
-honba = 0
-riichi_bou = 0
+from .forms import RonForm, TsumoForm, RyukyokuForm, SearchStatsForm
 
 
-def index(request):
-    return render(request, 'saki/index.html')
+def home(request):
+    return render(request, 'saki/home.html')
 
 
 def start_game(request):
@@ -26,73 +22,99 @@ def start_game(request):
         context = {'form': f}
         return render(request, 'saki/start_game.html', context)
     else:
-        global game_oj
-        game_oj = Game(game_type=request.POST['game_type'],
-                       east=Player.objects.get(name=request.POST['east']),
-                       south=Player.objects.get(name=request.POST['south']),
-                       west=Player.objects.get(name=request.POST['west']),
-                       north=Player.objects.get(name=request.POST['north']),
-                       )
-        game_oj.save()
-        url = reverse("saki:enter_kyoku", kwargs={'kyoku': 1, 'honba': 0})
-        return HttpResponseRedirect(url)
+        raise Http404
 
 
-def enter_kyoku(request, kyoku, honba):
-    players = [
-        (game_oj.east.name, game_oj.east.name),
-        (game_oj.south.name, game_oj.south.name),
-        (game_oj.west.name, game_oj.west.name),
-        (game_oj.north.name, game_oj.north.name),
-    ]
+def enter_kyoku(request):
+    if request.method == "GET":  # GET アクセスさせない
+        raise Http404
 
-    # if request.method == "POST":
-    #     kyoku_oj = Kyoku.objects.update_or_create(game=game_oj,
-    #                                               kyoku=kyoku,
-    #                                               honba=honba,
-    #                                               riichi_bou=riichi_bou,
-    #                                               agari_type=request.POST["agari_type"]
-    #                                               )
-    #
-    # east_oj = KyokuPlayer(kyoku=kyoku_oj,
-    #                       player=game_oj.east.name,
-    #                       jikaze='東',
-    #                       )
-    #
-    # south_oj = KyokuPlayer(kyoku=kyoku_oj,
-    #                        player=game_oj.south.name,
-    #                        jikaze='南',
-    #                        )
-    #
-    # west_oj = KyokuPlayer(kyoku=kyoku_oj,
-    #                       player=game_oj.west.name,
-    #                       jikaze='西',
-    #                       )
-    #
-    # north_oj = KyokuPlayer(kyoku=kyoku_oj,
-    #                        player=game_oj.north.name,
-    #                        jikaze='北',
-    #                        )
+    if "game_type" in request.POST:  # start_game からの画面遷移
+        game_oj = Game.objects.create(game_type=request.POST['game_type'],
+                                      east=Player.objects.get(name=request.POST['east']),
+                                      south=Player.objects.get(name=request.POST['south']),
+                                      west=Player.objects.get(name=request.POST['west']),
+                                      north=Player.objects.get(name=request.POST['north']),
+                                      )
 
-    f_ron = RonForm(players)
-    f_tsumo = TsumoForm(players)
-    f_ryukyoku = RyukyokuForm()
+        players = [
+            (game_oj.east.name, game_oj.east.name),
+            (game_oj.south.name, game_oj.south.name),
+            (game_oj.west.name, game_oj.west.name),
+            (game_oj.north.name, game_oj.north.name),
+        ]
 
-    context = {
-        'game_Object': game_oj,
-        'kyoku': kyoku,
-        'honba': honba,
-        'riichi_bou': riichi_bou,
-        'form_Ron': f_ron,
-        'form_Tsumo': f_tsumo,
-        'form_Ryukyoku': f_ryukyoku
-    }
+        f_ron = RonForm(players)
+        f_tsumo = TsumoForm(players)
+        f_ryukyoku = RyukyokuForm()
 
-    # game = Game.objects.get(game_id=4)
-    # tontya = game.ton
+        context = {
+            'game_Object': game_oj,
+            'kyoku': 1,
+            'honba': 0,
+            'riichi_bou': 0,
+            'form_Ron': f_ron,
+            'form_Tsumo': f_tsumo,
+            'form_Ryukyoku': f_ryukyoku
+        }
 
-    return render(
-        request,
-        'saki/enter_kyoku.html',
-        context
-    )
+        return render(request, 'saki/enter_kyoku.html', context)
+
+    else:
+        game_id = request.POST["game_id"]
+        game_oj = Game.objects.get(id=game_id)
+
+        players = [
+            (game_oj.east.name, game_oj.east.name),
+            (game_oj.south.name, game_oj.south.name),
+            (game_oj.west.name, game_oj.west.name),
+            (game_oj.north.name, game_oj.north.name),
+        ]
+
+        kyoku = int(request.POST["kyoku"])
+        honba = int(request.POST["honba"])
+        riichi_bou = int(request.POST["riichi_bou"])
+
+        kyoku_oj = Kyoku.objects.update_or_create(game=game_oj,
+                                                  kyoku=kyoku,
+                                                  honba=honba,
+                                                  riichi_bou=riichi_bou,
+                                                  agari_type=request.POST["agari_type"]
+                                                  )
+        print(kyoku_oj)
+        f_ron = RonForm(players)
+        f_tsumo = TsumoForm(players)
+        f_ryukyoku = RyukyokuForm()
+
+        # 適宜処理が必要です．
+        kyoku += 1
+        honba += 1
+        riichi_bou = 0
+
+        context = {
+            'game_Object': game_oj,
+            'kyoku': kyoku,
+            'honba': honba,
+            'riichi_bou': riichi_bou,
+            'form_Ron': f_ron,
+            'form_Tsumo': f_tsumo,
+            'form_Ryukyoku': f_ryukyoku
+        }
+
+        return render(request, 'saki/enter_kyoku.html', context)
+
+
+def search_stats(request):
+    player_all = Player.objects.all()
+    player_all = [(player.name, player.name) for player in player_all]
+    context = {'form': SearchStatsForm(player_all)}
+    return render(request, 'saki/search_stats.html', context)
+
+
+def show_stats(request):
+    player_name = request.POST.get('target_player', None)
+
+    context = calc_stats(player_name)
+    if not context:
+        return HttpResponse("Error: search failed. There is no data of that person.")
+    return render(request, 'saki/stats.html', context)

@@ -4,7 +4,6 @@ from django.utils import timezone
 
 class Player(models.Model):
     name = models.CharField(max_length=30)
-    point = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -13,7 +12,6 @@ class Player(models.Model):
 class Game(models.Model):
     game_type = models.CharField(max_length=10)
     date = models.DateTimeField(default=timezone.now)
-    # players = models.ManyToManyField(Player, blank=True)
     east = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, related_name='east')
     south = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, related_name='south')
     west = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, related_name='west')
