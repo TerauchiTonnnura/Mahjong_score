@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
 from .forms import StartGame
-from .models import Player, Game, Kyoku
+from .models import Player, Game, Kyoku, KyokuPlayer
 
 from .forms import RonForm, TsumoForm, RyukyokuForm
 
@@ -46,23 +46,33 @@ def enter_kyoku(request, kyoku, honba):
         (game_oj.north.name, game_oj.north.name),
     ]
 
-    if request.method == "POST":
-        # kyoku_oj = Kyoku.objects.update_or_create(game=game_oj,
-        #                                           kyoku=kyoku,
-        #                                           honba=honba,
-        #                                           riichi_bou=riichi_bou,
-        #                                           agari_type=request.POST["agari_type"]
-        #                                           )
-        pass
-    # kyoku = Kyoku.objects.all()[0]
-    # print(kyoku.agari_type)
-
-    # To Do
-    # request.POST に child_point あるか check
-    # if not 'child_point' in request.POST.keys():
-    #   render index(request)
-
-    # print(request.POST['child_point'])
+    # if request.method == "POST":
+    #     kyoku_oj = Kyoku.objects.update_or_create(game=game_oj,
+    #                                               kyoku=kyoku,
+    #                                               honba=honba,
+    #                                               riichi_bou=riichi_bou,
+    #                                               agari_type=request.POST["agari_type"]
+    #                                               )
+    #
+    # east_oj = KyokuPlayer(kyoku=kyoku_oj,
+    #                       player=game_oj.east.name,
+    #                       jikaze='東',
+    #                       )
+    #
+    # south_oj = KyokuPlayer(kyoku=kyoku_oj,
+    #                        player=game_oj.south.name,
+    #                        jikaze='南',
+    #                        )
+    #
+    # west_oj = KyokuPlayer(kyoku=kyoku_oj,
+    #                       player=game_oj.west.name,
+    #                       jikaze='西',
+    #                       )
+    #
+    # north_oj = KyokuPlayer(kyoku=kyoku_oj,
+    #                        player=game_oj.north.name,
+    #                        jikaze='北',
+    #                        )
 
     f_ron = RonForm(players)
     f_tsumo = TsumoForm(players)
