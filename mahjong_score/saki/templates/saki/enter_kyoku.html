@@ -15,10 +15,10 @@
 {% block contents %}
 
 <h3>
-    東 {{kyoku}} 局
+    {{kyoku_Object.bakaze}}{{kyoku_Object.kyoku}}局
     <small>
-        {{honba}} 本場
-        <small> リーチ棒 × {{riichi_bou}} </small>
+        {{kyoku_Object.honba}} 本場
+        <small> リーチ棒 × {{kyoku_Object.riichi_bou}} </small>
     </small>
 </h3>
 
@@ -88,6 +88,7 @@
             {{form_Ron.agari_player}} へ {{form_Ron.parent_point}} </br>
             <input type="hidden" value="ron" name="agari_type">
             <input type="hidden" value={{game_Object.id}} name="game_id">
+            <input type="hidden" value={{kyoku_Object.id}} name="kyoku_id">
             <input type="hidden" value={{kyoku}} name="kyoku">
             <input type="hidden" value={{honba}} name="honba">
             <input type="hidden" value={{riichi_bou}} name="riichi_bou">
@@ -110,6 +111,7 @@
             {{form_Tsumo.agari_player}} が {{form_Tsumo.parent_point}} オール </br>
             <input type="hidden" value="tsumo" name="agari_type">
             <input type="hidden" value={{game_Object.id}} name="game_id">
+            <input type="hidden" value={{kyoku_Object.id}} name="kyoku_id">
             <input type="hidden" value={{kyoku}} name="kyoku">
             <input type="hidden" value={{honba}} name="honba">
             <input type="hidden" value={{riichi_bou}} name="riichi_bou">
@@ -152,6 +154,7 @@
             {{form_Ryukyoku.unique}}
             <input type="hidden" value="ryukyoku" name="agari_type">
             <input type="hidden" value={{game_Object.id}} name="game_id">
+            <input type="hidden" value={{kyoku_Object.id}} name="kyoku_id">
             <input type="hidden" value={{kyoku}} name="kyoku">
             <input type="hidden" value={{honba}} name="honba">
             <input type="hidden" value={{riichi_bou}} name="riichi_bou">
@@ -190,6 +193,7 @@
             </div>
             <input type="hidden" value="chonbo" name="agari_type">
             <input type="hidden" value={{game_Object.id}} name="game_id">
+            <input type="hidden" value={{kyoku_Object.id}} name="kyoku_id">
             <input type="hidden" value={{kyoku}} name="kyoku">
             <input type="hidden" value={{honba}} name="honba">
             <input type="hidden" value={{riichi_bou}} name="riichi_bou">
