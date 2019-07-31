@@ -18,10 +18,10 @@
 {% block contents %}
 
 <h3>
-    東 {{kyoku}} 局
+    {{kyoku_Object.bakaze}}{{kyoku_Object.kyoku}}局
     <small>
-        {{honba}} 本場
-        <small> リーチ棒 × {{riichi_bou}} </small>
+        {{kyoku_Object.honba}} 本場
+        <small> リーチ棒 × {{kyoku_Object.riichi_bou}} </small>
     </small>
 </h3>
 
@@ -78,7 +78,7 @@
 <!-- 上がりタイプのアコーディオン処理 -->
 <div id="accordion_menu">
     <a data-toggle="collapse" href="#menu00" aria-controls="#menu00" aria-expanded="false">
-        <div class="btn-group btn-group-vertical col-sm-10 btn-group">
+        <div class="btn-group btn-group-vertical btn-group btn-block">
             <label class="btn btn-outline-secondary">
                 ロン
             </label>
@@ -91,15 +91,17 @@
             {{form_Ron.agari_player}} へ {{form_Ron.parent_point}} </br>
             <input type="hidden" value="ron" name="agari_type">
             <input type="hidden" value={{game_Object.id}} name="game_id">
+            <input type="hidden" value={{kyoku_Object.id}} name="kyoku_id">
             <input type="hidden" value={{kyoku}} name="kyoku">
             <input type="hidden" value={{honba}} name="honba">
             <input type="hidden" value={{riichi_bou}} name="riichi_bou">
             <input type="submit" value="確定">
+            <p></p>
         </form>
     </div>
 
     <a data-toggle="collapse" href="#menu01" aria-controls="#menu01" aria-expanded="false">
-        <div class="btn-group btn-group-vertical col-sm-10 btn-group">
+        <div class="btn-group btn-group-vertical btn-group btn-block">
             <label class="btn btn-outline-secondary">
                 ツモ
             </label>
@@ -112,16 +114,18 @@
             {{form_Tsumo.agari_player}} が {{form_Tsumo.parent_point}} オール </br>
             <input type="hidden" value="tsumo" name="agari_type">
             <input type="hidden" value={{game_Object.id}} name="game_id">
+            <input type="hidden" value={{kyoku_Object.id}} name="kyoku_id">
             <input type="hidden" value={{kyoku}} name="kyoku">
             <input type="hidden" value={{honba}} name="honba">
             <input type="hidden" value={{riichi_bou}} name="riichi_bou">
             <input type="submit" value="確定">
+            <p></p>
         </form>
     </div>
 
 
     <a data-toggle="collapse" href="#menu02" aria-controls="#menu02" aria-expanded="false">
-        <div class="btn-group btn-group-vertical col-sm-10 btn-group">
+        <div class="btn-group btn-group-vertical btn-group btn-block">
             <label class="btn btn-outline-secondary">
                 流局
             </label>
@@ -132,37 +136,39 @@
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group row">
-                <div class="col-sm-10 btn-group" data-toggle="buttons">
-                    <label class="btn btn-outline-secondary disabled" style="width: 20%">
+                <div class="btn-group btn-block" data-toggle="buttons">
+                    <label class="btn btn-outline-secondary disabled">
                         聴牌
                     </label>
-                    <label class="btn btn-outline-secondary" style="width: 20%">
-                        東野
+                    <label class="btn btn-outline-secondary">
+                        {{game_Object.east}}
                     </label>
-                    <label class="btn btn-outline-secondary" style="width: 20%">
-                        南
+                    <label class="btn btn-outline-secondary">
+                        {{game_Object.south}}
                     </label>
-                    <label class="btn btn-outline-secondary" style="width: 20%">
-                        西田
+                    <label class="btn btn-outline-secondary">
+                        {{game_Object.west}}
                     </label>
-                    <label class="btn btn-outline-secondary" style="width: 20%">
-                        北川
+                    <label class="btn btn-outline-secondary">
+                        {{game_Object.north}}
                     </label>
                 </div>
             </div>
             {{form_Ryukyoku.unique}}
             <input type="hidden" value="ryukyoku" name="agari_type">
             <input type="hidden" value={{game_Object.id}} name="game_id">
+            <input type="hidden" value={{kyoku_Object.id}} name="kyoku_id">
             <input type="hidden" value={{kyoku}} name="kyoku">
             <input type="hidden" value={{honba}} name="honba">
             <input type="hidden" value={{riichi_bou}} name="riichi_bou">
             <input type="submit" value="確定">
+            <p></p>
         </form>
     </div>
 
 
     <a data-toggle="collapse" href="#menu03" aria-controls="#menu03" aria-expanded="false">
-        <div class="btn-group btn-group-vertical col-sm-10 btn-group">
+        <div class="btn-group btn-group-vertical btn-group btn-block">
             <label class="btn btn-outline-secondary">
                 チョンボ
             </label>
@@ -173,23 +179,24 @@
         <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group row">
-                <div class="col-sm-10 btn-group" data-toggle="buttons">
-                    <label class="btn btn-outline-secondary" style="width: 25%">
-                        東野
+                <div class="btn-group btn-block" data-toggle="buttons">
+                    <label class="btn btn-outline-secondary col-sm-3 col-xs-6">
+                        {{game_Object.east}}
                     </label>
-                    <label class="btn btn-outline-secondary" style="width: 25%">
-                        南
+                    <label class="btn btn-outline-secondary col-sm-3 col-xs-6">
+                        {{game_Object.south}}
                     </label>
-                    <label class="btn btn-outline-secondary" style="width: 25%">
-                        西田
+                    <label class="btn btn-outline-secondary col-sm-3 col-xs-6">
+                        {{game_Object.west}}
                     </label>
-                    <label class="btn btn-outline-secondary" style="width: 25%">
-                        北川
+                    <label class="btn btn-outline-secondary col-sm-3 col-xs-6">
+                        {{game_Object.north}}
                     </label>
                 </div>
             </div>
             <input type="hidden" value="chonbo" name="agari_type">
             <input type="hidden" value={{game_Object.id}} name="game_id">
+            <input type="hidden" value={{kyoku_Object.id}} name="kyoku_id">
             <input type="hidden" value={{kyoku}} name="kyoku">
             <input type="hidden" value={{honba}} name="honba">
             <input type="hidden" value={{riichi_bou}} name="riichi_bou">

@@ -3,7 +3,7 @@ from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from .forms import StartGame, ComeBackForm
 from .models import Player, Game, Kyoku, KyokuPlayer
-from .mahjong_function import calc_stats
+from .mahjong_function import calc_stats, calc_kyoku, calc_honba
 
 from .forms import RonForm, TsumoForm, RyukyokuForm, SearchStatsForm
 
@@ -52,6 +52,14 @@ def enter_kyoku(request):
                                       north=Player.objects.get(name=request.POST['north']),
                                       )
 
+        kyoku_oj = Kyoku.objects.create(game=game_oj,
+                                                  kyoku=1,
+                                                  honba=0,
+                                                  riichi_bou=0,
+                                                  )
+
+        print(kyoku_oj.game)
+
         players = [
             (game_oj.east.name, game_oj.east.name),
             (game_oj.south.name, game_oj.south.name),
@@ -65,6 +73,7 @@ def enter_kyoku(request):
 
         context = {
             'game_Object': game_oj,
+            'kyoku_Object': kyoku_oj,
             'kyoku': 1,
             'honba': 0,
             'riichi_bou': 0,
@@ -90,24 +99,55 @@ def enter_kyoku(request):
         honba = int(request.POST["honba"])
         riichi_bou = int(request.POST["riichi_bou"])
 
-        kyoku_oj = Kyoku.objects.update_or_create(game=game_oj,
-                                                  kyoku=kyoku,
-                                                  honba=honba,
-                                                  riichi_bou=riichi_bou,
-                                                  agari_type=request.POST["agari_type"]
-                                                  )
-        print(kyoku_oj)
+        kyoku_oj = Kyoku.objects.get(id=request.POST["kyoku_id"])
+        kyoku_oj.riichi_bou = riichi_bou
+        kyoku_oj.agari_type = request.POST["agari_type"]
+
+        east_player_oj = Player.objects.get(name=game_oj.east.name)
+        south_player_oj = Player.objects.get(name=game_oj.south.name)
+        west_player_oj = Player.objects.get(name=game_oj.west.name)
+        north_player_oj = Player.objects.get(name=game_oj.north.name)
+
+        kaze_name = ['東', '南', '西', '北']
+
+        east_oj = KyokuPlayer.objects.update_or_create(kyoku=kyoku_oj,
+                                                       player=east_player_oj,
+                                                       jikaze=kaze_name[(kyoku-1) % 4]
+                                                       )
+
+        south_oj = KyokuPlayer.objects.update_or_create(kyoku=kyoku_oj,
+                                                        player=south_player_oj,
+                                                        jikaze=kaze_name[kyoku % 4]
+                                                        )
+
+        west_oj = KyokuPlayer.objects.update_or_create(kyoku=kyoku_oj,
+                                                       player=west_player_oj,
+                                                       jikaze=kaze_name[(kyoku+1) % 4]
+                                                       )
+
+        north_oj = KyokuPlayer.objects.update_or_create(kyoku=kyoku_oj,
+                                                        player=north_player_oj,
+                                                        jikaze=kaze_name[(kyoku+2) % 4]
+                                                        )
+
         f_ron = RonForm(players)
         f_tsumo = TsumoForm(players)
         f_ryukyoku = RyukyokuForm()
 
+        players_oj_list = [east_oj, south_oj, west_oj, north_oj]
+
         # 適宜処理が必要です．
-        kyoku += 1
-        honba += 1
         riichi_bou = 0
+
+        kyoku_oj = Kyoku.objects.create(game=game_oj,
+                                        kyoku=calc_kyoku(kyoku, players_oj_list),
+                                        honba=calc_honba(kyoku, players_oj_list),
+                                        riichi_bou=riichi_bou,
+                                        )
 
         context = {
             'game_Object': game_oj,
+            'kyoku_Object': kyoku_oj,
             'kyoku': kyoku,
             'honba': honba,
             'riichi_bou': riichi_bou,
