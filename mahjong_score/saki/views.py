@@ -29,7 +29,8 @@ def comeback(request):
     if request.method == "POST":
         print(request.POST)
         game = Game.objects.get(id=request.POST["game_id"])
-        print(game)
+        kyoku = Kyoku.objects.filter(game=game).order_by('-id').first()
+        print(kyoku)
     game_all = Game.objects.all()
     games = []
     for game in game_all:
