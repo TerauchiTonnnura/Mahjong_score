@@ -17,12 +17,12 @@
 
 {% block contents %}
 <hr>
-<form method="post" action="">
+<form method="post" action="{% url 'saki:enter_kyoku' %}">
     {% csrf_token %}
 
     <label>戻りたいゲーム</label><br>
     <label>{{ form.game_id }}</label><br>
-
+    <input type="hidden" value="" name="comeback">
     <input type="submit" value="送信">
 </form>
 {% endblock contents%}

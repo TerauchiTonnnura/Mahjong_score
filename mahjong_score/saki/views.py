@@ -26,16 +26,11 @@ def start_game(request):
 
 
 def comeback(request):
-    if request.method == "POST":
-        print(request.POST)
-        game = Game.objects.get(id=request.POST["game_id"])
-        kyoku = Kyoku.objects.filter(game=game).order_by('-id').first()
-        print(kyoku)
     game_all = Game.objects.all()
     games = []
     for game in game_all:
         games.append((game.id, str(game)))
-    f = ComeBackForm(games)
+    f = ComeBackForm(games[::-1])
     context = {'form': f}
     return render(request, 'saki/comeback.html', context)
 
@@ -53,10 +48,10 @@ def enter_kyoku(request):
                                       )
 
         kyoku_oj = Kyoku.objects.create(game=game_oj,
-                                                  kyoku=1,
-                                                  honba=0,
-                                                  riichi_bou=0,
-                                                  )
+                                        kyoku=1,
+                                        honba=0,
+                                        riichi_bou=0,
+                                        )
 
         print(kyoku_oj.game)
 
@@ -84,6 +79,32 @@ def enter_kyoku(request):
 
         return render(request, 'saki/enter_kyoku.html', context)
 
+    elif "comeback" in request.POST:  # 復旧処理の遷移
+        game_oj = Game.objects.get(id=request.POST["game_id"])
+
+        players = [
+            (game_oj.east.name, game_oj.east.name),
+            (game_oj.south.name, game_oj.south.name),
+            (game_oj.west.name, game_oj.west.name),
+            (game_oj.north.name, game_oj.north.name),
+        ]
+
+        kyoku_oj = Kyoku.objects.filter(game=game_oj).order_by('-id').first()
+
+        f_ron = RonForm(players)
+        f_tsumo = TsumoForm(players)
+        f_ryukyoku = RyukyokuForm()
+
+        context = {
+            'game_Object': game_oj,
+            'kyoku_Object': kyoku_oj,
+            'form_Ron': f_ron,
+            'form_Tsumo': f_tsumo,
+            'form_Ryukyoku': f_ryukyoku
+        }
+
+        return render(request, 'saki/enter_kyoku.html', context)
+
     else:
         game_id = request.POST["game_id"]
         game_oj = Game.objects.get(id=game_id)
@@ -102,55 +123,21 @@ def enter_kyoku(request):
         kyoku_oj = Kyoku.objects.get(id=request.POST["kyoku_id"])
         kyoku_oj.riichi_bou = riichi_bou
         kyoku_oj.agari_type = request.POST["agari_type"]
-
-        east_player_oj = Player.objects.get(name=game_oj.east.name)
-        south_player_oj = Player.objects.get(name=game_oj.south.name)
-        west_player_oj = Player.objects.get(name=game_oj.west.name)
-        north_player_oj = Player.objects.get(name=game_oj.north.name)
-
-        kaze_name = ['東', '南', '西', '北']
-
-        east_oj = KyokuPlayer.objects.update_or_create(kyoku=kyoku_oj,
-                                                       player=east_player_oj,
-                                                       jikaze=kaze_name[(kyoku-1) % 4]
-                                                       )
-
-        south_oj = KyokuPlayer.objects.update_or_create(kyoku=kyoku_oj,
-                                                        player=south_player_oj,
-                                                        jikaze=kaze_name[kyoku % 4]
-                                                        )
-
-        west_oj = KyokuPlayer.objects.update_or_create(kyoku=kyoku_oj,
-                                                       player=west_player_oj,
-                                                       jikaze=kaze_name[(kyoku+1) % 4]
-                                                       )
-
-        north_oj = KyokuPlayer.objects.update_or_create(kyoku=kyoku_oj,
-                                                        player=north_player_oj,
-                                                        jikaze=kaze_name[(kyoku+2) % 4]
-                                                        )
+        kyoku_oj.save()
 
         f_ron = RonForm(players)
         f_tsumo = TsumoForm(players)
         f_ryukyoku = RyukyokuForm()
 
-        players_oj_list = [east_oj, south_oj, west_oj, north_oj]
-
-        # 適宜処理が必要です．
-        riichi_bou = 0
-
         kyoku_oj = Kyoku.objects.create(game=game_oj,
-                                        kyoku=calc_kyoku(kyoku, players_oj_list),
-                                        honba=calc_honba(kyoku, players_oj_list),
+                                        kyoku=kyoku,
+                                        honba=honba,
                                         riichi_bou=riichi_bou,
                                         )
 
         context = {
             'game_Object': game_oj,
             'kyoku_Object': kyoku_oj,
-            'kyoku': kyoku,
-            'honba': honba,
-            'riichi_bou': riichi_bou,
             'form_Ron': f_ron,
             'form_Tsumo': f_tsumo,
             'form_Ryukyoku': f_ryukyoku

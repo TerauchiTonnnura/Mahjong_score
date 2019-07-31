@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block current %}
 <li class="nav-item">
@@ -92,9 +93,9 @@
             <input type="hidden" value="ron" name="agari_type">
             <input type="hidden" value={{game_Object.id}} name="game_id">
             <input type="hidden" value={{kyoku_Object.id}} name="kyoku_id">
-            <input type="hidden" value={{kyoku}} name="kyoku">
-            <input type="hidden" value={{honba}} name="honba">
-            <input type="hidden" value={{riichi_bou}} name="riichi_bou">
+            <input type="hidden" value={{kyoku_Object.kyoku}} name="kyoku">
+            <input type="hidden" value={{kyoku_Object.honba}} name="honba">
+            <input type="hidden" value={{kyoku_Object.riichi_bou}} name="riichi_bou">
             <input type="submit" value="確定">
             <p></p>
         </form>
@@ -115,9 +116,9 @@
             <input type="hidden" value="tsumo" name="agari_type">
             <input type="hidden" value={{game_Object.id}} name="game_id">
             <input type="hidden" value={{kyoku_Object.id}} name="kyoku_id">
-            <input type="hidden" value={{kyoku}} name="kyoku">
-            <input type="hidden" value={{honba}} name="honba">
-            <input type="hidden" value={{riichi_bou}} name="riichi_bou">
+            <input type="hidden" value={{kyoku_Object.kyoku}} name="kyoku">
+            <input type="hidden" value={{kyoku_Object.honba}} name="honba">
+            <input type="hidden" value={{kyoku_Object.riichi_bou}} name="riichi_bou">
             <input type="submit" value="確定">
             <p></p>
         </form>
@@ -158,9 +159,9 @@
             <input type="hidden" value="ryukyoku" name="agari_type">
             <input type="hidden" value={{game_Object.id}} name="game_id">
             <input type="hidden" value={{kyoku_Object.id}} name="kyoku_id">
-            <input type="hidden" value={{kyoku}} name="kyoku">
-            <input type="hidden" value={{honba}} name="honba">
-            <input type="hidden" value={{riichi_bou}} name="riichi_bou">
+            <input type="hidden" value={{kyoku_Object.kyoku}} name="kyoku">
+            <input type="hidden" value={{kyoku_Object.honba}} name="honba">
+            <input type="hidden" value={{kyoku_Object.riichi_bou}} name="riichi_bou">
             <input type="submit" value="確定">
             <p></p>
         </form>
@@ -197,9 +198,9 @@
             <input type="hidden" value="chonbo" name="agari_type">
             <input type="hidden" value={{game_Object.id}} name="game_id">
             <input type="hidden" value={{kyoku_Object.id}} name="kyoku_id">
-            <input type="hidden" value={{kyoku}} name="kyoku">
-            <input type="hidden" value={{honba}} name="honba">
-            <input type="hidden" value={{riichi_bou}} name="riichi_bou">
+            <input type="hidden" value={{kyoku_Object.kyoku}} name="kyoku">
+            <input type="hidden" value={{kyoku_Object.honba}} name="honba">
+            <input type="hidden" value={{kyoku_Object.riichi_bou}} name="riichi_bou">
             <input type="submit" value="確定">
         </form>
     </div>
@@ -207,6 +208,7 @@
 
 {% endblock contents%}
 {% block script %}
+<script type="text/javascript" src="{% static 'js/enter_kyoku.js' %}"></script>
 <style>
         tr{
             text-align: center;
