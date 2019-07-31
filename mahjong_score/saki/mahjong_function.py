@@ -51,3 +51,32 @@ def judge_juni(game):
     # 頭ハネも対応
     play_result.sort(key=lambda x: x[1], reverse=True)
     return play_result
+
+
+def calc_kyoku(kyoku, players_oj_list):
+    for player_oj in players_oj_list:
+        print(player_oj.jikaze)
+        if player_oj.jikaze == '東':
+            if player_oj.agari:
+                return kyoku
+            elif player_oj.tempai:
+                return kyoku
+            else:
+                return kyoku + 1
+
+
+def calc_honba(honba, players_oj_list):
+    children_agari_flag = False
+
+    for player_oj in players_oj_list:
+        if player_oj.agari:
+            print(player_oj.jikaze)
+            if player_oj.jikaze == '東':
+                return honba + 1
+            else:
+                children_agari_flag = True
+
+    if children_agari_flag:
+        return 0
+    else:
+        return honba + 1

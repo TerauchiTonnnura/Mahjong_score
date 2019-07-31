@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block current %}
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'saki:home' %}">ホーム</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'saki:start_game' %}">Start Game</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{% url 'saki:search_stats' %}">Stats</a>
+</li>
+<li class="nav-item active">
+    <a class="nav-link" href="{% url 'saki:comeback' %}">ComeBack<span class="sr-only">(current)</span></a>
+</li>
+{% endblock %}
+
+{% block contents %}
+<hr>
+<form method="post" action="{% url 'saki:enter_kyoku' %}">
+    {% csrf_token %}
+
+    <label>戻りたいゲーム</label><br>
+    <label>{{ form.game_id }}</label><br>
+    <input type="hidden" value="" name="comeback">
+    <input type="submit" value="送信">
+</form>
+{% endblock contents%}
