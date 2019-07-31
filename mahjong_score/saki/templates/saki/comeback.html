@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block current %}
 <li class="nav-item">
     <a class="nav-link" href="{% url 'saki:home' %}">ホーム</a>
@@ -6,23 +7,22 @@
 <li class="nav-item">
     <a class="nav-link" href="{% url 'saki:start_game' %}">Start Game</a>
 </li>
-<li class="nav-item active">
-    <a class="nav-link" href="{% url 'saki:search_stats' %}">Stats<span class="sr-only">(current)</span></a>
-</li>
 <li class="nav-item">
-    <a class="nav-link" href="{% url 'saki:comeback' %}">ComeBack</a>
+    <a class="nav-link" href="{% url 'saki:search_stats' %}">Stats</a>
+</li>
+<li class="nav-item active">
+    <a class="nav-link" href="{% url 'saki:comeback' %}">ComeBack<span class="sr-only">(current)</span></a>
 </li>
 {% endblock %}
 
 {% block contents %}
-<h2>
-    プレイヤ検索
-</h2>
-
-<form action="show_stats" method="post">
+<hr>
+<form method="post" action="">
     {% csrf_token %}
-    {{ form.target_player }}
+
+    <label>戻りたいゲーム</label><br>
+    <label>{{ form.game_id }}</label><br>
 
     <input type="submit" value="送信">
 </form>
-{% endblock contents %}
+{% endblock contents%}

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.urls import reverse
-from .forms import StartGame
+from .forms import StartGame, ComeBackForm
 from .models import Player, Game, Kyoku, KyokuPlayer
 from .mahjong_function import calc_stats
 
@@ -23,6 +23,20 @@ def start_game(request):
         return render(request, 'saki/start_game.html', context)
     else:
         raise Http404
+
+
+def comeback(request):
+    if request.method == "POST":
+        print(request.POST)
+        game = Game.objects.get(id=request.POST["game_id"])
+        print(game)
+    game_all = Game.objects.all()
+    games = []
+    for game in game_all:
+        games.append((game.id, str(game)))
+    f = ComeBackForm(games)
+    context = {'form': f}
+    return render(request, 'saki/comeback.html', context)
 
 
 def enter_kyoku(request):

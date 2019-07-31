@@ -45,6 +45,18 @@ class StartGame(forms.Form):
     )
 
 
+class ComeBackForm(forms.Form):
+    def __init__(self, games, *args, **kwargs):
+        super(ComeBackForm, self).__init__(*args, **kwargs)
+        self.fields['game_id'].choices = games
+
+    game_id = forms.ChoiceField(
+        label='game you want to come back',
+        widget=forms.Select,
+        choices=()
+    )
+
+
 class RonForm(forms.Form):
     def __init__(self, players, *args, **kwargs):
         super(RonForm, self).__init__(*args, **kwargs)
